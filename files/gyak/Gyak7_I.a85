@@ -1,0 +1,30 @@
+; Írjunk programot, amely elõállítja az akkumulátorban lévõ bináris szám
+; hexadecimális karakteres megfelelõjét a BC regiszterpárba.
+; pl: A=1Eh => B='1' (31h), C='E' (45h)
+; Elv: ha a konvertálandó 4 bit (b) 0 ... 9, akkor a hexa karakter = b + 30h
+; ha a konvertálandó 4 bit (b) A ... F, akkor a hexa karakter = b + 37h ( 'A' = 41H)
+
+        ORG   0000H
+
+        PUSH  PSW       ; A mentése, mert elõször csak 4 bit kell
+        ANI   0FH       ; alsó 4 bit (felsõ 4 bit törlése)
+        ADI   30H       ; karakter
+        CPI   3AH       ; nagyobb, mint '9'
+        JC    c1
+        ADI   7         ; még adjunk hozzá 7-et
+c1:
+        MOV   C,A       ; alsó 4 bit hexa karaktere a C-be
+        POP   PSW       ; A visszaállítása
+        RLC             ; a felsõ 4 bit kell, elõször odaforgatjuk
+        RLC
+        RLC
+        RLC
+        ANI   0FH       ; most már alul van, törölhetjük a felsõ 4-et
+        ADI   30H
+        CPI   3AH
+        JC    c2
+        ADI   7
+c2:
+        MOV   B,A       ; felsõ 4 bit hexa karaktere a C-be
+        HLT
+

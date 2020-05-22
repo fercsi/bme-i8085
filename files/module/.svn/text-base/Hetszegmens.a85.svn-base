@@ -1,0 +1,80 @@
+; írjon programot, mely kiírja az illesztett kijelzõre a pi értékét
+
+#import Seg7              ; A szimulátornak szóló üzenet, hogy illessze a 7 szegmenses kijelzõt
+                          ; A szegmensek elérhetõk a 0d0h-0d5h IO címeken
+						  ; Minden bit egy-egy szegmensnek felel meg
+                          ; Szegmenskiosztás: pgfedcba, 1 érték a világítás
+                          ;   aaa
+                          ;  f   b
+                          ;  f   b
+                          ;   ggg
+                          ;  e   c
+                          ;  e   c
+                          ;   ddd  p
+
+XSEG7   EQU   0D0h        ; kijelzõ báziscíme
+
+        CSEG
+
+        LXI   SP, 0       ; verem a memória tetejére (BSS: 8000h-FFFFh)
+        LXI   D, digits   ; szegmenstábla kezdõcíme (convert-nek kell)
+
+        MVI   L, 3
+        CALL  convert
+        ORI   080h        ; tizedes pont
+        OUT   XSEG7 + 0   ; elsõ számjegy
+
+        MVI   L, 1
+        CALL  convert
+        OUT   XSEG7 + 1   ; második számjegy
+
+        MVI   L, 4
+        CALL  convert
+        OUT   XSEG7 + 2   ; ...
+
+        MVI   L, 1
+        CALL  convert
+        OUT   XSEG7 + 3
+
+        MVI   L, 5
+        CALL  convert
+        OUT   XSEG7 + 4
+
+        MVI   L, 9
+        CALL  convert
+        OUT   XSEG7 + 5
+
+        HLT
+
+; Szubrutin: egy számjegyet szegmensértékekké alakít
+; be:
+;   L:  számjegy (0-9)
+;   DE: szegmenstábla kezdõcíme
+; ki:
+;   A:  szegmensinformáció
+; megváltozik:
+;   H, L
+convert:
+        MVI   H, 0
+        DAD   D
+        MOV   A, M
+        RET
+        
+; -------- ADATSZEGMENS --------		
+        DSEG
+; Szegmenstábla: Számjegyekhez tartozó szegmenskiosztások
+digits:
+        DB    00111111b ; 0
+        DB    00000110b
+        DB    01011011b
+        DB    01001111b
+        DB    01100110b
+        DB    01101101b
+        DB    01111101b
+        DB    00000111b
+        DB    01111111b
+        DB    01101111b ; 9
+
+
+        END
+

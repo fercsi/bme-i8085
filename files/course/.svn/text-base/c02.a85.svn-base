@@ -1,0 +1,25 @@
+; Daten kopieren
+	LXI	H,0018H
+	LXI	D,0028H
+	MVI	C,16
+schleife:
+	MOV	A,M
+	STAX	D
+	INX	H
+	INX	D
+	DCR	C
+	JNZ	schleife
+	HLT
+
+	ORG	0018H
+	DB	1, 2, 6/2, 2*2
+	DW	0605h, addr
+	DB	"ABCDEFGH"
+
+	ORG	0800H
+	DS	7
+addr:
+	DS	9
+	
+	END
+

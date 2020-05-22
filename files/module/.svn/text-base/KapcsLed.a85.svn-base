@@ -1,0 +1,34 @@
+; Írjon programot, amely a kapcsolók állásától függõen állítja be a ledeket.
+; Amennyiben az 1-es kapcsoló off állásban van, egyik led se égjen.
+; Ha az egyes kapcsoló on állásban van, egyetlen led égjen, amelyik sorszámát
+; a 6-8. kapcsolók határozzák meg (dekóder).
+; Pl. ha a 6-8. kapcsolókon beállított bináris érték 2, akkor a 2. sorszámú led
+; gyulladjon ki.
+
+#import SwLed           ; "Kapcsolók és Ledek" modul betöltése
+
+        CSEG
+
+repeat:
+        IN   00H        ; kapcsolók állásának beolvasása
+        MOV  C,A        ; elmentjük, mert még kell
+        RLC             ; legmagasabb helyiérték (1. kapcsoló)?
+        JNC  clear      ; ha nem ég, kapcsoljuk ki a ledeket...
+        MOV  A,C        ; elmentett akkumulátor visszaállítása
+        ANI  07H        ; alsó három kapcsoló bináris értéke
+        MOV  C,A        ; ez lesz a ciklusváltozó
+        MVI  A,1        ; kezdeti érték (0. led ég)
+        INR  C          ; növeljük, hogy utána csökkentve 0-szor is futhasson a ciklus
+cycle:
+        DCR  C          ; ciklusváltozó csökkentése
+        JZ   setleds    ; ciklus vége...
+        RLC             ; ha nem, akkor A-t balra toljuk (következõ led égjen)
+        JMP  cycle      ; ciklus eleje
+clear:
+        XRA  A          ; akkumulátor törlése (egyik led se égjen)
+setleds:
+        OUT  00h        ; megjelenítés a ledeken
+        JMP  repeat     ; kezdjük elölrõl
+
+        END
+

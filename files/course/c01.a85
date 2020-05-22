@@ -1,0 +1,8 @@
+; Summierung
+	MVI	A, 25H
+	MVI	B, 3CH
+	ADD	B
+	HLT
+	
+	END
+

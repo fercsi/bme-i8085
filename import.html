@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>i8085 Simulator - Import</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript"></script>
+		<style type="text/css">
+			@import "i8085sim.css";
+		</style>
+	</head>
+	<body>
+		<h1>i8085 Simulator</h1>
+		<div class="block">
+			<h2>Import file into i8085 Simulator:</h2>
+			<form action="i8085sim.cgi" id="file" method="post" enctype="multipart/form-data">
+				<input type="file" name="file"> <input type="submit" class="btn" value="Import">
+			</form>
+			<p>Acceptable file types: intel hex, i8085 assembly source (<a href="asm85.html">beta version</a>). There is also a small <a href="help-hu.html">help</a> in hungarian.</p>
+		</div>
+		<div class="block">
+			<h2>Direct assembly</h2>
+			<p>Type in assembly source.</p>
+			<form action="i8085sim.cgi" id="source" method="post" enctype="multipart/form-data">
+				<textarea name="asm"></textarea><br/>
+			  <input type="submit" class="btn" value="Send">
+			</form>
+		</div>
+		<div class="block">
+		  <h2>Online examples</h2>
+			<table id="examples">
+				<tr>
+					<td><h3>Study Examples</h3><?x85 filelist gyak ?></td>
+					<td><h3>Module Tests</h3><?x85 filelist module ?></td>
+					<td><h3>Miscellaneous</h3><?x85 filelist misc ?></td>
+					<td><h3>Course Prezi</h3><?x85 filelist course ?></td>
+				</tr>
+			</table>
+		</div>
+		<div id="copy">&copy; Doxence, 2007-2014</div>
+	</body>
+</html>

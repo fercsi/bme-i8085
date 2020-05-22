@@ -1,0 +1,48 @@
+; Maximum suchen
+
+	CSEG
+
+	LXI	H, data
+	MVI	C, data_ende - data
+	CALL	suchen
+	HLT
+
+	DSEG
+data:
+	DB	32,54,12,93,72,127,3,217,32,28
+data_ende:
+
+	CSEG
+; Subroutine
+suchen:
+	PUSH	PSW
+	PUSH	B
+	PUSH	D
+
+	MOV	A, M
+	MOV	D, H
+	MOV	E, L
+	DCR	C
+	JZ	gefunden
+schleife:
+	INX	H
+	CMP	M
+	JNC	kleiner
+	MOV	A, M
+	MOV	D, H
+	MOV	E, L
+kleiner:
+	DCR	C
+	JNZ	schleife
+gefunden:
+	XCHG
+
+	POP	D
+	POP	B
+	POP	PSW
+
+	RET
+
+	
+	END
+

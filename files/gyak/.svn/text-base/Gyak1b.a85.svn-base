@@ -1,0 +1,28 @@
+; Írjunk programot, amely a 9000h címrõl 32 szót (2 byte) átmásol a 9800h címre (memcpy)
+
+        ORG   0000h
+
+        LXI   H,9000h   ; forrás mutató
+        LXI   D,9800h   ; cél mutató
+        MVI   C,32      ; darabszám - elfér 1 byte-on
+ciklus:
+        MOV   A,M       ; másolás az akkumulátoron keresztül: forrás alsó byte olvasása
+        STAX  D         ; cél alsó byte írása
+        INX   H         ; forrás mutató növelése
+        INX   D         ; cél mutató növelése
+        MOV   A,M       ; forrás felsõ byte olvasása
+        STAX  D         ; cél felsõ byte írása
+        INX   H         ; forrás mutató növelése
+        INX   D         ; cél mutató növelése
+        DCR   C         ; darabszám csökkentése
+        JNZ   ciklus    ; ha nem nulla, vegyük a következõt
+        HLT
+
+        ORG   9000h
+        DW    1653, 27631, 82, 318, 8321, 17263, 62817, 827
+        DW    1653, 27631, 82, 318, 8321, 17263, 62817, 827
+        DW    1653, 27631, 82, 318, 8321, 17263, 62817, 827
+        DW    1653, 27631, 82, 318, 8321, 17263, 62817, 827
+
+        END
+

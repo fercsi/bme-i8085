@@ -1,0 +1,10 @@
+body{
+    background: black;
+    font: bold 14px Courier New, Monospace;
+    padding: 10px;
+    margin: 0px;
+}
+span{
+    background:#222;
+    color: #eee;
+}

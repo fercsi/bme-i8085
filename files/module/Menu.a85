@@ -1,0 +1,30 @@
+; Írjon programot, mely elkészíti egy ablakozós rendszer fejlécét
+
+#import Screen            ; A szimulátornak szóló üzenet, hogy illessze a képernyõt
+
+OSZLOP  EQU   80          ; képernyõ oszlopainak száma
+
+        CSEG
+
+        MVI   C,OSZLOP
+        LXI   H,fejlec    ; Elõre beállított fejléc
+        LXI   D,kepernyo  ; Képernyõ címe
+ciklus:
+        MOV   A,M         ; "Menü" olvasása
+        STAX  D           ; képernyõre írása
+        INX   H
+        INX   D
+        DCR   C           ; ismételjük, amíg körbe nem fordul
+        JNZ   ciklus
+        HLT
+
+        DSEG
+fejlec:
+        DB    " Fájl  Szerkesztés  Nézet  Beállítások  Súgó                         i8085 Kft. "
+
+        BSEG
+kepernyo:
+        DS    2000h
+
+        END
+

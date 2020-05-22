@@ -1,0 +1,32 @@
+; Írjon programot, amely Johnson számláló módjára villogtatja a ledeket.
+
+#import SwLed           ; "Kapcsolók és Ledek" modul betöltése
+
+        CSEG
+
+        XRA A           ; Kezdeti érték
+main:
+        RLC             ; Johnson shift ...
+        CMC
+        RAR
+        RLC             ; ...
+        OUT  00h        ; megjelenítés a ledeken
+        CALL delay      ; lassítunk
+        JMP  main
+
+delay:
+        PUSH PSW        ; hagyományos delay
+        PUSH B
+        LXI  B,5000     ; Valós procin ez még így is nagyon gyors lenne, böngészőben futtatva okés
+del_cyc:
+        DCX  B
+        MOV  A,B
+        ORA  C
+        JNZ  del_cyc
+        POP  B
+        POP  PSW
+        RET
+
+        END
+
+

@@ -1,0 +1,32 @@
+; írjon programot, mely kiírja az összes karaktert az illesztett képernyõre
+; a karaktereket 16 sorba írja ki, soronként 16 karakterrel
+
+#import Screen            ; A szimulátornak szóló üzenet, hogy illessze a képernyõt
+                          ; Bal felsõ sarok címe 8000h
+						  ; Lépernyõ mérete: 80x25
+
+OSZLOP  EQU   80          ; képernyõ oszlopainak száma
+
+        CSEG
+
+        MVI   C,0
+        LXI   H,kepernyo  ; Képernyõ címe
+        LXI   D,OSZLOP-16 ; 16 karakterenként új sort váltunk
+ciklus:
+        MOV   M,C         ; minden karaktert kiírunk a képernyõre
+        INX   H
+        MOV   A,L         ; elértük a sor 16. karakterét?
+        ANI   0Fh
+        JNZ   kihagy      ; ha nem, kihagyjuk
+        DAD   D           ; új sor
+kihagy:
+        INR   C           ; ismételjük, amíg körbe nem fordul
+        JNZ   ciklus
+        HLT
+
+        BSEG
+kepernyo:
+        DS    2000h
+
+        END
+

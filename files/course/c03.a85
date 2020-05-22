@@ -1,0 +1,13 @@
+; Bilschirm
+
+#import Screen	; spec. extension
+
+	MVI	A, 'X'
+	STA	8000H
+	MVI	A, 'Y'
+	STA	8001H
+
+	HLT
+
+	END
+

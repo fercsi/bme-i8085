@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>i8085 Assembler</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript"></script>
+		<style type="text/css">
+			@import "i8085sim.css";
+		</style>
+	</head>
+	<body>
+		<h1>i8085 Assembler Súgó</h1>
+		<div class="block">
+			<h2>Előszó</h2>
+			<p>Az alábbi súgó szép lassacskán készül. A használat remélhetőleg magától értetődő. Elsősorban azt próbáltam itt leírni, ami nem feltétlenül triviális.</p>
+			<p>A rendszer futtatásához elsősorban Firefox 2.0 ill. 3.0 verziók használata javasolt. Internet Explorer alatt a böngésző erőforrásainak gyenge kezelése miatt a rendszer lassan működhet.</p>
+		</div>
+		<div class="block">
+			<h2>Programkód betöltése</h2>
+			<p>A processzorhoz kapcsolódó memóriába három módon tölthetünk be kódot:</p>
+			<ul>
+				<li>Saját kód feltöltése (&bdquo;Import file into i8085 Simulator&rdquo;): Lehet assembly forráskód, vagy egy fordító ihx (intel hex) típusú kimenete.</li>
+				<li>Közvetlen assembly forrás bevitele online formában (&bdquo;Direct assembly&rdquo;). Csak egyszerű kódrészletek tesztelésére javasolt.</li>
+				<li>Előre feltöltött példaprogramok betöltése és futtatása, illetve azok forráskódjának megtekintése (&bdquo;Online Examples&rdquo;).</li>
+			</ul>
+		</div>
+		<div class="block">
+			<h2>Modulok</h2>
+			<p>A szimulátor beépülő modulok segítségével lehetővé teszi különféle (szintén szimulált) hardveregységek illesztését a processzorhoz. Az alábbiakban ismertetjük a jelenleg implementált modulokat.</p>
+			<p>A modulok használata érdekében a fordító program feldolgozza és kezeli az erre a célra kialakított <tt>#import</tt> pragmát, amely segítségével kérhetjük a szimulátort, hogy az adott hálózatot illessze a processzorhoz. pl: <tt>#import Seg7</tt></p>
+			<p>Mivel az egyes modulok megjelenítése külön ablakban történik, ezt a böngészőben engedélyezni kell, majd újr be kell tölteni a szimulátort.</p>
+			<h3>SwLed</h3>
+			<p>Egy ki-bemeneti modul, amely tartalmaz egy kapcsolósort, és egy kimeneti regisztert, amelyen 8 ledet helyeztünk el. A modul a <tt>00H</tt> I/O címen érhető el olvasásra és írásra is. A kapcsolók ON állásban &bdquo;1&rdquo; értéket adnak. Az 1-es számú kapcsoló a 7. bitre van kötve, míg a 8-as a 0.-ra. A ledek &bdquo;1&rdquo; érték esetén világítanak.</p>
+			<h3>Seg7</h3>
+			<p>Hét szegmenses kijelző, amely 6 számjegyet tartalmaz. Az eszköz a <tt>D0-D5</tt> I/O-címeken érhető el. Minden cím egy-egy számjegynek felel meg. Az egyes bitek értéke a hozzá tartozó szegmens állapotát jelzik, ahol &bdquo;1&rdquo; érték esetén jelenik meg fény. A szegmensek bitkoisztása a következő: dp g f e d c b a:</p>
+			<img src="7seg.png" width="150" height="150"/>
+			<h3>Screen</h3>
+			<p>Karakteres megjelenítő, amely egy 80x25 karakterfelbontású képernyőt szimulál. A képernyő elérhető a <tt>8000H-87CFH</tt> memóriacímeken. Minden bájt egy-egy karakternek felel meg. Az eszköz karakterkódolása az ISO-8859-1 kódolásnak felel meg.</p>
+			
+		</div>
+		<div class="block">
+			<h2>Beállítások</h2>
+			<p>A beállításokhoz kattintsunk a fő menü &bdquo;Config&rdquo; gombjára. Ott az alábbi lehetőségek közül választhatunk.</p>
+			<h3>CPU Frequency</h3>
+			<p>A processzor belső órajele MHz-ben. Ez a 8085 CLKOUT jelének megfelelő frekvencia, vagyis a gépi ciklus alap órajele.</p>
+			<h3>Code Start at</h3>
+			<p>A disassembler mezőben található kódok kezdőcíme. Az online rendszerek erőteljes korlátozásai miatt a rendszer a kódnak csak egy részletét elemzi. Itt adhatjuk meg az elemzés kezdőcímét. Amennyiben az érték mellett elhelyezkedő mezőt bekattintjuk, az elemzés minden esetben az PC aktuális értékénél kezdődik.</p>
+			<h3>Code Size</h3>
+			<p>Az elmezni kívánt adatterület mérete. Amennyiben ezt túl nagyra állítjuk, a böngésző erőteljesen belassulhat, vagy akár le is fagyhat.</p>
+			<h3>Stack Size</h3>
+			<p>A megjeleníteni kívánt stack-méret duplaszóban.</p>
+			<h3>Show Bus Activity</h3>
+			<p>A futás közbeni buszműveleteket és a regiszterek változását megjeleníti. Megjegyzendő, hogy a megváltozott regiszterek értéke csak a következő buszműveletben jelenik meg (mivel a buszművelet alatt még a korábbi értéket tartalmazzák).</p>
+			<h3>Follow Code</h3>
+			<p>A segítségével folyamatosan követhetők a változások a processzorban futtatás esetén. Ezt alkalmazva nagy mértékben lelassul a szimulált gép sebessége.</p>
+		</div>
+		<div id="copy">&copy; Doxence, 2007-2014</div>
+	</body>
+</html>

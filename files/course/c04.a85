@@ -1,0 +1,26 @@
+; Text kopieren
+
+#import Screen	; spec. extension
+
+	LXI	H,text
+	LXI	D,screen
+schleife:
+	MOV	A,M
+	ORA	A
+	JZ	ende
+	STAX	D
+	INX	H
+	INX	D
+	JMP	schleife
+ende:
+	HLT
+
+text:
+	DB	"Diese Aufgabe ist schon ziemlich interessant!"
+
+	ORG	8000H
+screen:
+	DS	80*25
+	
+	END
+

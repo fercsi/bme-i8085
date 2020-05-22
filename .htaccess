@@ -1,0 +1,8 @@
+DirectoryIndex i8085sim.cgi
+Allow from all
+
+AddHandler cgi-script .cgi
+<Files "*.cgi">
+  Options ExecCGI FollowSymlinks
+</Files>
+

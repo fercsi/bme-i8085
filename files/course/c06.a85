@@ -1,0 +1,36 @@
+; Binär-hexa konversion
+
+#import Screen ;...
+
+	MVI	A, 2CH
+	CALL	bin2hexa
+	LXI	H, 8000H
+	MOV	M, B
+	INX	H
+	MOV	M, C
+	HLT
+
+bin2hexa:
+	PUSH	PSW
+	ANI	0FH
+	ADI	30H
+	CPI	3AH
+	JC	b2h_1
+	ADI	7
+b2h_1:
+	MOV	C, A
+	POP	PSW
+	RLC
+	RLC
+	RLC
+	RLC
+	ANI	0FH
+	ADI	30H
+	CPI	3AH
+	JC	b2h_2
+	ADI	7
+b2h_2:
+	MOV	B, A
+	RET
+
+	END

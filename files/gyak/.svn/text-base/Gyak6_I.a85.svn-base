@@ -1,0 +1,28 @@
+; Írjunk programot, amely a 9000H címtõl kezdõdõ 32 byte-os
+; memóriaterületen megszámolja, hogyhány darab 1-es bit van.
+
+        ORG   0000H
+
+        LXI   H,9000H   ; kezdõ cím
+        MVI   C,32      ; hossz
+        LXI   D,0       ; számláló
+c1:
+        MVI   B,8       ; ennyi bit van egy byte-ban
+        MOV   A,M       ; aktuális byte az A-ba
+c2:
+        RLC             ; a bitek vizsgálata a cy-n keresztül
+        JNC   c3        ; nincs cy, nem kell számolni
+        INX   D
+c3:
+        DCR   B         ; van még bit?
+        JNZ   c2
+        INX   H         ; következõ cím
+        DCR   C         ; van még byte?
+        JNZ   c1
+        HLT
+
+        ORG   9000H
+        DB    "Ez egy 32 bájt hosszúságú szöveg"
+
+        END
+

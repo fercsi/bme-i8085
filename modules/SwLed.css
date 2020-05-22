@@ -1,0 +1,141 @@
+body{
+    background: white;
+/*    font: bold 14px Courier New, Monospace;*/
+    padding: 10px;
+    margin: 0px;
+}
+
+/*#led0, #led1, #led2, #led3, #led4, #led5, #led6, #led7 {*/
+/*    position: absolute;*/
+/*    top: 15px;*/
+/*}*/
+/*#led7 {*/
+/*    left: 15px;*/
+/*}*/
+/*#led6 {*/
+/*    left: 45px;*/
+/*}*/
+/*#led5 {*/
+/*    left: 75px;*/
+/*}*/
+/*#led4 {*/
+/*    left: 105px;*/
+/*}*/
+/*#led3 {*/
+/*    left: 135px;*/
+/*}*/
+/*#led2 {*/
+/*    left: 165px;*/
+/*}*/
+/*#led1 {*/
+/*    left: 195px;*/
+/*}*/
+/*#led0 {*/
+/*    left: 225px;*/
+/*}*/
+/*.ledon, .ledoff {*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/
+/*.ledon{*/
+/*    background: red;*/
+/*}*/
+/*.ledoff{*/
+/*    background: #200;*/
+/*}*/
+
+#led0, #led1, #led2, #led3, #led4, #led5, #led6, #led7 {
+    position: absolute;
+    top: 15px;
+}
+#led7 {
+    left: 44px;
+}
+#led6 {
+    left: 86px;
+}
+#led5 {
+    left: 129px;
+}
+#led4 {
+    left: 169px;
+}
+#led3 {
+    left: 211px;
+}
+#led2 {
+    left: 253px;
+}
+#led1 {
+    left: 294px;
+}
+#led0 {
+    left: 335px;
+}
+.ledon, .ledoff {
+    width: 24px;
+    height: 22px;
+}
+.ledon{
+    background: url( 'led_on.png' );
+}
+.ledoff{
+    background: url( 'led_off.png' );
+}
+
+#sw0, #sw1, #sw2, #sw3, #sw4, #sw5, #sw6, #sw7 {
+    position: absolute;
+    top: 75px;
+}
+#sw7 {
+    left: 41px;
+}
+#sw6 {
+    left: 83px;
+}
+#sw5 {
+    left: 126px;
+}
+#sw4 {
+    left: 166px;
+}
+#sw3 {
+    left: 208px;
+}
+#sw2 {
+    left: 250px;
+}
+#sw1 {
+    left: 291px;
+}
+#sw0 {
+    left: 332px;
+}
+.swon, .swoff {
+    width: 30px;
+    height: 63px;
+    cursor: pointer;
+}
+.swon{
+    background: url('switch_on.png');
+}
+.swoff{
+    background: url('switch_off.png');
+}
+
+#dip {
+    position: absolute;
+    top: 45px;
+    left: 0px;
+    width: 413px;
+    height: 237px;
+    background: url('dip.jpg');
+}
+#panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 52px;
+    background: black;
+}

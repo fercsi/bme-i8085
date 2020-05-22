@@ -1,0 +1,38 @@
+; Írjunk programot, amely a 9000h címrõl 512 byte-ot átmásol a 9800h címre (memcpy)
+
+        ORG   0000h
+
+        LXI   H,9000h   ; forrás mutató
+        LXI   D,9800h   ; cél mutató
+        LXI   B,512     ; darabszám 2 byte-on fér el
+ciklus:
+        MOV   A,M       ; másolás az akkumulátoron keresztül: forrás olvasása
+        STAX  D         ; cél írása
+        INX   H         ; forrás mutató növelése
+        INX   D         ; cél mutató növelése
+        DCX   B         ; darabszám csökkentése - nem állítja a flageket!!!
+        MOV   A,C
+        ORA   B         ; BC == 0?
+        JNZ   ciklus    ; ha nem nulla, vegyük a következõt
+        HLT
+
+        ORG   9000h
+        DB    "Nem tudhatom, hogy másnak e tájék mit jelent,\n"
+        DB    "nekem szülõhazám itt e lángoktól ölelt\n"
+        DB    "kis ország, messzeringó gyerekkorom világa.\n"
+        DB    "Belõle nõttem én, mint fatörzsbõl gyönge ága\n"
+        DB    "s remélem, testem is majd e földbe süpped el.\n"
+        DB    "Itthon vagyok. S ha néha lábamhoz térdepel\n"
+        DB    "egy-egy bokor, nevét is, virágát is tudom,\n"
+        DB    "tudom, hogy merre mennek, kik mennek az úton,\n"
+        DB    "s tudom, hogy mit jelenthet egy nyári alkonyon\n"
+        DB    "a házfalakról csorgó, vöröslõ fájdalom.\n"
+        DB    "Ki gépen száll fölebe, annak térkép e táj,\n"
+        DB    "s nem tudja, hol lakott itt Vörösmarty Mihály;\n"
+        DB    "annak mit rejt e térkép? gyárat s vad laktanyát,\n"
+        DB    "de nekem szöcskét, ökröt, tornyot, szelíd tanyát;\n"
+        DB    "az gyárat lát a látcson és szántóföldeket,\n"
+        
+
+        END
+

@@ -1,0 +1,104 @@
+; fixpoint 16.16 utility
+
+		CSEG
+
+;----------------------------------------
+; [H] = [H] + [D]
+; destroyed: A, C, D, E, H, L, F
+fxAdd:
+        MVI   C, 4
+		ORA   A         ; clear carry
+fxAdd_Loop:
+		LDAX  D
+		ADC   M
+		MOV   M, A
+		INX   H
+		INX   D
+		DCR   C
+		JNZ   fxAdd_Loop
+		RET
+
+;----------------------------------------
+; [H] = [H] - [D]
+; destroyed: A, B, C, D, E, H, L, F
+fxSub:
+        MVI   C, 4
+		ORA   A         ; clear carry
+fxSub_Loop:
+		LDAX  D
+		MOV   B, A
+		MOV   A, M
+		SBC   B
+		MOV   M, A
+		INX   H
+		INX   D
+		DCR   C
+		JNZ   fxSub_Loop
+		RET
+		
+;----------------------------------------
+; [H] = [H] * [D]
+; destroyed: 
+fxMul:
+        RET
+
+;----------------------------------------
+; [H] = [H] / [D]
+; destroyed: 
+; X' = 2 * X - a * X * X  ->  1 / a
+; a / 2 < X0 < 2 * a 
+fxDiv:
+        RET
+fxDiv_X0:
+		; change bits
+		; shift left
+		; ( x & -x ) -> only LSB 1 
+		; 
+fxDiv_IsPow2:
+        MVI   C, 4
+fxDiv_L2:
+		MOV   A, M
+		ANA   A
+		JZ    fxDiv_L3
+		MOV   B, A
+		DCR   B
+		AND   B
+		JNZ   fxDiv_NotPow2
+		JMP   fxDiv_L4
+fxDiv_L3:
+		INX   M
+		DCR   C
+		JNZ   fxDiv_L2
+		...; result zero -> error
+
+fxDiv_L4:
+		MOV   A, M
+		ANA   A
+		JNZ   fxDiv_NotPow2
+		INX   H
+		DCR   C
+		JNZ   fxDiv_L4
+		...; Pow2
+fxDiv_NotPow2:
+		...; not pow2
+
+
+
+
+
+
+
+;----------------------------------------
+; [H] = sqrt [H]
+; destroyed: 
+; X' = ( X + a / X ) / 2 -> sqrt( a )
+fxSqrt:
+        RET
+
+		DSEG
+fxFlags	DS	1
+FXFLAG_DIV0 EQU 01
+fxTemp	DS  8
+
+        END
+

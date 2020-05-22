@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ --  i8085 Simulator v1.0
+ --  (c) Doxence, 2007-2014
+ --  fvajda@doxence.com
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>i8085 Simulator</title>
+		<script type="text/javascript" src="prototype.js"></script>
+		<script type="text/javascript" src="i8085sim.js"></script>
+		<!--script type="text/javascript" src="test.js"></script-->
+		<script id="mem_script"></script>
+		<style type="text/css">
+			@import "i8085sim.css";
+		</style>
+	</head>
+	<body onload="reset()">
+		<h1>i8085 Simulator</h1>
+
+		<div class="block" style="height:43px">
+			<input type="button" id="btn_reset" value="Reset" onclick="reset()" />
+			<input type="button" id="btn_run" value="Run" onclick="run()" />
+			<input type="button" id="btn_stop" value="Stop" onclick="stop()" disabled="disabled" />
+			<input type="button" id="btn_step" value="Step" onclick="stepInstruction()" />
+			<input type="button" id="btn_config" value="Config" onclick="config()" />
+ 			<div id="label_elapsed_time">Elapsed time:</div>
+ 			<input type="text" id="elapsed_phases" readonly="readonly" />
+ 			<div id="label_phases">phases,</div>
+ 			<input type="text" id="elapsed_time" readonly="readonly" />
+ 			<div id="label_nsec">usec</div>
+ 		</div>
+
+		<div class="block" style="height:264px">
+		  <pre id="code"> </pre>
+ 			<div id="label_memory">Memory</div>
+ 			<pre id="memory" onclick="dlg_set_memory_show()"> </pre>
+ 			<div id="label_stack">Stack</div>
+			<pre id="stack"> </pre>
+ 			<div id="label_input">Input</div>
+			<pre id="input" onclick="dlg_set_input_show()"> </pre>
+ 			<div id="label_output">Output regs</div>
+ 			<pre id="output" onclick="dlg_set_output_show()"> </pre>
+ 			<div id="label_reg_a">A</div>
+ 			<input type="text" id="reg_a" onchange="set('reg_a')" />
+ 			<div id="label_reg_b">B</div>
+ 			<input type="text" id="reg_b" onchange="set('reg_b')" />
+ 			<div id="label_reg_c">C</div>
+ 			<input type="text" id="reg_c" onchange="set('reg_c')" />
+ 			<div id="label_reg_d">D</div>
+ 			<input type="text" id="reg_d" onchange="set('reg_d')" />
+ 			<div id="label_reg_e">E</div>
+ 			<input type="text" id="reg_e" onchange="set('reg_e')" />
+ 			<div id="label_reg_h">H</div>
+ 			<input type="text" id="reg_h" onchange="set('reg_h')" />
+ 			<div id="label_reg_l">L</div>
+ 			<input type="text" id="reg_l" onchange="set('reg_l')" />
+ 			<div id="label_reg_sp">SP</div>
+ 			<input type="text" id="reg_sp" onchange="set('reg_sp')" />
+ 			<div id="label_reg_pc">PC</div>
+ 			<input type="text" id="reg_pc" onchange="set('reg_pc')" />
+ 			<div id="label_inte">INTE</div>
+			<input type="text" id="inte" readonly="readonly" onclick="toggleFlag('inte')" />
+ 			<div id="label_flag_cy">CY</div>
+			<input type="text" id="flag_cy" readonly="readonly" onclick="toggleFlag('flag_cy')" />
+ 			<div id="label_flag_z">Z</div>
+			<input type="text" id="flag_z" readonly="readonly" onclick="toggleFlag('flag_z')" />
+ 			<div id="label_flag_p">P</div>
+			<input type="text" id="flag_p" readonly="readonly" onclick="toggleFlag('flag_p')" />
+ 			<div id="label_flag_s">S</div>
+			<input type="text" id="flag_s" readonly="readonly" onclick="toggleFlag('flag_s')" />
+ 			<div id="label_flag_ac">AC</div>
+			<input type="text" id="flag_ac" readonly="readonly" onclick="toggleFlag('flag_ac')" />
+ 			<div id="label_rst5_5">RST5.5</div>
+			<input type="text" id="rst5_5" readonly="readonly" onclick="toggleFlag('rst5_5')" />
+ 			<div id="label_rst6_5">RST6.5</div>
+			<input type="text" id="rst6_5" readonly="readonly" onclick="toggleFlag('rst6_5')" />
+ 			<div id="label_rst7_5">RST7.5</div>
+			<input type="text" id="rst7_5" readonly="readonly" onclick="toggleFlag('rst7_5')" />
+ 			<div id="label_sod">SOD</div>
+			<input type="text" id="sod" readonly="readonly" onclick="toggleFlag('sod')"/>
+ 			<div id="label_sid">SID</div>
+			<input type="text" id="sid" readonly="readonly" onclick="toggleFlag('sid')" />
+ 			<div id="label_rst5_5_mask">. . . mask</div>
+			<input type="text" id="rst5_5_mask" readonly="readonly" onclick="toggleFlag('rst5_5_mask')" />
+ 			<div id="label_rst6_5_mask">. . . mask</div>
+			<input type="text" id="rst6_5_mask" readonly="readonly" onclick="toggleFlag('rst6_5_mask')" />
+ 			<div id="label_rst7_5_mask">. . . mask</div>
+			<input type="text" id="rst7_5_mask" readonly="readonly" onclick="toggleFlag('rst7_5_mask')" />
+ 			<div id="label_rst7_5_ff">RST7.5 FF</div>
+			<input type="text" id="rst7_5_ff" readonly="readonly" onclick="toggleFlag('rst7_5_ff')" />
+ 			<div id="label_trap">TRAP</div>
+			<input type="text" id="trap" readonly="readonly" onclick="toggleFlag('trap')" />
+ 			<div id="label_int">INT</div>
+			<input type="text" id="int" readonly="readonly" onclick="toggleFlag('int')" />
+ 		</div>
+
+		<div class="block" id="blk_bus_activity">
+			<table id="bus">
+				<thead>
+					<tr>
+						<th>Address</th>
+						<th>Data</th>
+						<th><span style="text-decoration:overline">RD</span></th>
+						<th><span style="text-decoration:overline">WR</span></th>
+						<th>IO/<span style="text-decoration:overline">M</span></th>
+						<th>A</th>
+						<th>B</th>
+						<th>C</th>
+						<th>D</th>
+						<th>E</th>
+						<th>H</th>
+						<th>L</th>
+						<th>F <span style="font-size:8px">[SZ-A-P-C]</span></th>
+						<th>SP</th>
+					</tr>
+				</thead>
+				<tbody id="busdata">
+				</tbody>
+			</table>
+ 		</div>
+		<div id="copy">&copy; Vajda Ferenc, 2007-2014</div>
+
+		<!-- dialogs -->
+		<div id="message" style="display:none"></div>
+		<div id="set_memory" style="display:none">
+ 			<div id="label_set_memory_address">Address:</div>
+			<input type="text" id="set_memory_address" />
+ 			<div id="label_set_memory_value">Value:</div>
+			<input type="text" id="set_memory_value" />
+			<input type="button" id="set_memory_ok" value="OK" onclick="dlg_set_memory_ok()"/>
+			<input type="button" id="set_memory_cancel" value="Cancel" onclick="dlg_set_memory_cancel()" />
+		</div>
+		<div id="set_input" style="display:none">
+ 			<div id="label_set_input_address">Address:</div>
+			<input type="text" id="set_input_address" />
+ 			<div id="label_set_input_value">Value:</div>
+			<input type="text" id="set_input_value" />
+			<input type="button" id="set_input_ok" value="OK" onclick="dlg_set_input_ok()"/>
+			<input type="button" id="set_input_cancel" value="Cancel" onclick="dlg_set_input_cancel()" />
+		</div>
+		<div id="set_output" style="display:none">
+ 			<div id="label_set_output_address">Address:</div>
+			<input type="text" id="set_output_address" />
+ 			<div id="label_set_output_value">Value:</div>
+			<input type="text" id="set_output_value" />
+			<input type="button" id="set_output_ok" value="OK" onclick="dlg_set_output_ok()"/>
+			<input type="button" id="set_output_cancel" value="Cancel" onclick="dlg_set_output_cancel()" />
+		</div>
+		<div id="dlg_config" style="display:none">
+ 			<div id="label_config_cpu_freq">CPU frequency (MHz):</div>
+			<input type="text" id="config_cpu_freq" />
+ 			<div id="label_config_delay">Ready delay (CLK):</div>
+			<input type="text" id="config_delay" />
+ 			<div id="label_config_code_start">Code Start at:</div>
+			<input type="text" id="config_code_start" />
+			<input type="text" id="config_pc" value="PC" readonly="readonly" onclick="dlg_config_toggle_pc()"/>
+ 			<div id="label_config_code_size">Code Size:</div>
+			<input type="text" id="config_code_size" />
+ 			<div id="label_config_stack_size">Stack Size:</div>
+			<input type="text" id="config_stack_size" />
+ 			<label id="label_config_bus_activity" for="config_bus_activity">Show bus activity:</label>
+			<input type="checkbox" id="config_bus_activity" />
+ 			<label id="label_follow_code" for="follow_code">Follow code:</label>
+			<input type="checkbox" id="follow_code" />
+			<input type="button" id="config_ok" value="OK" onclick="dlg_config_ok()"/>
+			<input type="button" id="config_cancel" value="Cancel" onclick="dlg_config_cancel()" />
+		</div>
+	</body>
+</html>
