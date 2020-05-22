@@ -35,8 +35,6 @@ Egy ki-bemeneti modul, amely tartalmaz egy kapcsolósort, és egy kimeneti regis
 
 Hét szegmenses kijelző, amely 6 számjegyet tartalmaz. Az eszköz a `D0-D5` I/O-címeken érhető el. Minden cím egy-egy számjegynek felel meg. Az egyes bitek értéke a hozzá tartozó szegmens állapotát jelzik, ahol "1" érték esetén jelenik meg fény. A szegmensek bitkoisztása a következő: dp g f e d c b a:
 
-![7 segment display][./7seg.png]
-
 ### Screen
 
 Karakteres megjelenítő, amely egy 80x25 karakterfelbontású képernyőt szimulál. A képernyő elérhető a `8000H-87CFH` memóriacímeken. Minden bájt egy-egy karakternek felel meg. Az eszköz karakterkódolása az ISO-8859-1 kódolásnak felel meg.
