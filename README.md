@@ -2,8 +2,8 @@
 
 _2007-2014_
 
-i8085 has been created as a practicing tool for Budapest University of Technology and Economics
-electrical engineering students. Following text is therefore in Hungarian (yet)
+`i8085sim` has been created as a practicing tool for Budapest University of Technology and Economics
+electrical engineering students. Following text is therefore in Hungarian (yet). Technology has not been updated since 2007, so forgive me for this :).
 
 ## Előszó
 
