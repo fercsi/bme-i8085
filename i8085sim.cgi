@@ -5,7 +5,8 @@
 #----------------------------------------------------------------------------#]
 use strict;
 use CGI;
-use lib '.';
+use File::Basename;
+use lib dirname( __FILE__ );
 use Asm85;
 use Encode qw/from_to/;
 
